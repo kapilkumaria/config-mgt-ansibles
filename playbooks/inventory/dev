@@ -1,0 +1,39 @@
+[ubuntu]
+webserver1 
+webserver2 
+webserver3 ansible_user=ec2-user
+
+
+
+[centos] 
+webserver3 ansible_user=ec2-user 
+dbserver ansible_user=ec2-user 
+
+
+[db] 
+dbserver ansible_user=ec2-user
+
+
+
+[nfs]
+nfsserver 
+
+
+
+
+
+[jenkins-masters]
+jenkins 
+
+
+
+
+[web_ubuntu]
+webserver1 
+webserver2 [jenkins] jenkins-master [web_centos] webserver3 ansible_user=ec2-user
+
+
+
+[webservers:children]
+ubuntu
+
