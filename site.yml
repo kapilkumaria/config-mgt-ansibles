@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+   - name: Including tasks from common_playbook.yml
+     include: playbooks/common.yml
+
+

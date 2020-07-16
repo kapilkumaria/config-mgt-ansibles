@@ -1,9 +1,5 @@
 ---
 
-- hosts: all
-  become: yes
-  tasks:
-
    - name: Updating and upgrading apt packages on Debian servers
      apt:
       update_cache: yes
