@@ -1,0 +1,12 @@
+--- 
+
+
+- name: show databases
+  command: >
+    mysql --user={{ mysql_user_name }} --password={{ mysql_user_password }}
+    --execute="show databases"
+  register: results 
+
+
+- name: show results
+  debug: msg={{ results.stdout_lines }}

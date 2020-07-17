@@ -6,12 +6,12 @@ nfsserver
 
 [centos]
 webserver3 ansible_user=ec2-user
-dbserver ansible_user=ec2-user
+#dbserver ansible_user=ec2-user
 
 
 [db]
 dbserver
-
+#dbserverc ansible_user=ec2-user
 
 [nfs]
 nfsserver
@@ -28,12 +28,12 @@ jenkins
 webserver3 ansible_user=ec2-user
 
 
-[webservers:children]
-web_ubuntu
-web_centos
+#[webservers:children]
+#web_ubuntu
+#web_centos
 
 
-#[webservers]
-#webserver1
-#webserver2
-#webserver3 ansible_user=ec2-user
+[webservers]
+webserver1
+webserver2
+webserver3 ansible_user=ec2-user

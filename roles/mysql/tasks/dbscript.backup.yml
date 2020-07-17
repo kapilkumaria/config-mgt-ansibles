@@ -1,0 +1,43 @@
+--- 
+
+- name: copy dbscript.j2 in tasks folder
+  template:
+    src: dbscript.j2
+    dest: /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/dbscript.sql
+    owner: root
+    group: root
+    mode: 0777
+  delegate_to: localhost 
+
+
+- name: copy mysqld.cnf in tasks folder
+  template:
+    src: mysqld.cnf.j2
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+
+- name: Create database user with name 'kapil' and password 'kapil' with all database privileges
+  mysql_user:
+    name: kapil
+    password: kapil
+    priv: '*.*:ALL'
+    state: present 
+
+
+- name: flush privileges
+  command: >
+   mysql -e "FLUSH PRIVILEGES;" - name: check if mysql database 'kapildb' exists
+  stat:
+   path: /var/lib/mysql/kapildb
+  register: results 
+
+
+- name: login to mysql and run dbscript.sql script
+  command: >
+    mysql --user=kapil --password=kapil --host=35.171.133.205
+    --execute="source /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/dbscript.sql"
+  delegate_to: localhost
+  when: not results.stat.exists
