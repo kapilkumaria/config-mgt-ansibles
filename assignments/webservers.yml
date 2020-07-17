@@ -1,0 +1,7 @@
+---
+
+- hosts: webservers
+  become: true
+  roles:
+    - ~/kk/config-mgt-ansibles/roles/webservers
+#   - /home/ubuntu/kk/config-mgt-ansibles/roles/webservers

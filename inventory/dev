@@ -32,3 +32,8 @@ webserver3 ansible_user=ec2-user
 web_ubuntu
 web_centos
 
+
+#[webservers]
+#webserver1
+#webserver2
+#webserver3 ansible_user=ec2-user

@@ -1,0 +1,7 @@
+---
+apache_package: httpd
+apache_service: httpd
+redhat_apache_config_dir: /etc/httpd/conf.d
+
+
+
