@@ -1,0 +1,121 @@
+---
+
+
+   - name: install webserver {{ apache_package }} on debian servers
+     package:
+      name: "{{ apache_package }}"
+      state: present
+      update_cache: yes
+#     register: foo
+     when: 
+      - ansible_os_family == "Debian"
+     notify: start {{ apache_service }} service
+ 
+#   - debug: var=foo['stdout_lines']
+
+   - name: install webserver {{ apache_package }} on centos servers
+     package:
+      name: httpd
+      state: latest
+      update_cache: yes
+     when: 
+      - ansible_os_family == "RedHat"
+     notify: start {{ apache_service }} service
+
+
+   - name: installing nfs-kernel-server package only on host server
+     apt:
+      name: nfs-kernel-server
+      state: latest
+      update_cache: yes
+     when:
+      - ansible_nodename == "nfsserver"
+
+
+
+   - name: cloning git website from GitHub for debian servers
+     git:
+      repo: https://github.com/propitix/tooling.git
+      dest: /var/www/tooling
+     when: ansible_os_family == "Debian"
+
+
+
+   - name: cloning git website from GitHub for centos servers
+     git:
+      repo: https://github.com/propitix/tooling.git
+      dest: /var/www/html/tooling/
+      clone: yes
+     when: ansible_os_family == "RedHat"
+
+
+   - name: copying "{{ apache_dir_config }}" file for apache servers
+     template:
+      src: debian_dir.j2
+      dest: "{{ apache_dir_config }}/dir.conf"
+      owner: root
+      group: root
+      mode: 0600
+     when: ansible_os_family == "Debian"
+
+   - name: copying "{{ apache_config_dir }}" file for apache servers
+     template:
+      src: debian_config.j2
+      dest: "{{ apache_config_dir }}/tooling.conf"
+      owner: root
+      group: root
+      mode: 0600
+     when: ansible_os_family == "Debian"
+     notify: start {{ apache_service }} service
+
+   - name: enabling tooling.conf site
+     command: a2ensite tooling.conf
+     when: ansible_os_family == "Debian"
+
+   - name: disabling 000-default.conf site
+     command: a2dissite 000-default.conf
+     when: ansible_os_family == "Debian"
+     notify: restart {{ apache_service }} service
+
+
+   - name: disable the mpm_event module
+     command: a2dismod mpm_event
+     when: ansible_os_family == "Debian"
+
+   - name: enable the mpm_prefork
+     command: a2enmod mpm_prefork
+     when: ansible_os_family == "Debian"
+     
+
+   - name: enable the php-modules
+     command: a2enmod php7.2
+     when: ansible_os_family == "Debian"
+     notify: restart {{ apache_service }} service
+
+
+   - name: ensure apache is running and starts at boot for debian servers
+     service:
+      name: apache2
+      state: started
+      enabled: true
+     when: ansible_os_family == "Debian"
+
+
+   - name: ensure httpd is running and starts at boot for centos servers
+     service:
+      name: httpd
+      state: started
+      enabled: true
+     when: ansible_os_family == "RedHat"
+
+   - name: copying "centos-config" configuration file for centos servers
+     template:
+      src: centos_config.j2
+      dest: /etc/httpd/conf/httpd.conf
+      owner: root
+      group: root
+      mode: 0600
+     when: ansible_os_family == "RedHat"
+     notify: restart centos service
+
+
