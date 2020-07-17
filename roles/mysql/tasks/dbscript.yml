@@ -3,7 +3,7 @@
 - name: copy dbscript.j2 in tasks folder
   template:
    src: dbscript.j2
-   dest: /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/dbscript.sql
+   dest: /home/ubuntu/kk/config-mgt-ansibles/roles/mysql/tasks/dbscript.sql
    owner: root
    group: root
    mode: 0777
@@ -23,7 +23,7 @@
 - name: copy showdatabases.j2 in tasks folder 
   copy:
    src: files/showdatabases.yml 
-   dest: /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/showdatabases.yml 
+   dest: /home/ubuntu/kk/config-mgt-ansibles/roles/mysql/tasks/showdatabases.yml 
    owner: root 
    group: root 
    mode: 0777 
@@ -33,7 +33,7 @@
 - name: show databases 
   command: > 
    mysql --user={{ mysql_user_name }} --password={{ mysql_user_password }} 
-   --execute="show databases" 
+   --execute="show databases;" 
   register: results 
 
 
@@ -64,19 +64,6 @@
 - name: login to mysql and run dbscript.sql script
   command: >
     mysql --user=kapil --password=kapil --host=35.171.133.205
-    --execute="source /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/dbscript.sql"
+    --execute="source /home/ubuntu/kk/config-mgt-ansibles/roles/mysql/tasks/dbscript.sql"
   delegate_to: localhost
   when: not results.stat.exists
-
-
-
-
-
-
-
-#- name: Create database user with name 'kapil' and password 'kapil' with all database privileges
-#  mysql_user:
-#    name: "{{ tooling_db_username }}" password: "{{ tooling_db_password }}" priv: "{{ tooling_db_name }}:ALL" state: present tags: - db_script ignore_errors: true - name: run mysql script shell: sqlcmd -S 35.175.115.183 -U {{ 
-#  mysql_user_name }} -P {{ mysql_user_password }} -i /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/dbscript.sql shell: sqlcmd -S 35.175.115.183 -U {{ mysql_user_name }} -P {{ mysql_user_password }} -i 
-#  roles/mysql/tasks/dbscript.sql - name: copy dbscript.j2 in tasks folder copy:
-#    src: files/dbscript.sql dest: /home/ubuntu/kk/config-mgt-ansible/roles/mysql/tasks/dbscriptsss.sql owner: root group: root mode: 0777 delegate_to: localhost
