@@ -37,6 +37,8 @@
      git:
       repo: https://github.com/propitix/tooling.git
       dest: /var/www/tooling
+      clone: yes
+      force: yes     
      when: ansible_os_family == "Debian"
 
 
@@ -44,8 +46,9 @@
    - name: cloning git website from GitHub for centos servers
      git:
       repo: https://github.com/propitix/tooling.git
-      dest: /var/www/html/tooling/
+      dest: /var/www/tooling
       clone: yes
+      force: yes
      when: ansible_os_family == "RedHat"
 
 
@@ -118,4 +121,24 @@
      when: ansible_os_family == "RedHat"
      notify: restart centos service
 
+
+   - name: copying custom functions.php file for debian servers
+     template:
+      src: function.php.j2
+      dest: /var/www/tooling/html/functions.php
+      owner: root
+      group: root
+      mode: 0600
+     when: ansible_os_family == "Debian"
+
+
+
+   - name: copying custom functions.php file for debian servers
+     template:
+      src: function.php.j2
+      dest: /var/www/tooling/html/functions.php
+      owner: root
+      group: root
+      mode: 0600
+     when: ansible_os_family == "RedHat"
 

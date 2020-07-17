@@ -1,2 +1,6 @@
----
-# defaults file for webservers
+--- 
+
+tooling_db_username: "kapil" 
+tooling_db_password: "kapil" 
+tooling_db_ip: "35.171.133.205" 
+tooling_db_name: "kapildb"

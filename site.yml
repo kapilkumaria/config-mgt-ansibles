@@ -1,20 +1,24 @@
----
+--- 
 
 - hosts: all
   become: true
-  
+
   pre_tasks:
    - name: load variable files
      include_vars: "{{ item }}"
-     with_first_found: 
+     with_first_found:
       - roles/webservers/vars/apache_default.yml
       - roles/webservers/vars/apache_{{ ansible_os_family }}.yml
+
 
   tasks:
    - name: Including tasks from common_playbook.yml
      include: playbooks/common.yml
 
-- import_playbook: assignments/webservers.yml
+#   - name: Include global variables all.yml
+#     include_vars:
+#      file: group_vars/all.yml - import_playbook: mysql.yml
 
 
-
+- import_playbook: webserver.yml 
+- import_playbook: mysql.yml
