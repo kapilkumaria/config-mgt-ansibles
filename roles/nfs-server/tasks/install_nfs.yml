@@ -1,0 +1,11 @@
+---
+
+
+
+- name: installing nfs-kernel-server package only on host server
+  apt:
+   name: nfs-kernel-server
+   state: latest
+   update_cache: yes
+  when:
+   - ansible_nodename == "nfsserver"

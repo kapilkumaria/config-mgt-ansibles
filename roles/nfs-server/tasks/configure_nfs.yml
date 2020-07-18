@@ -1,0 +1,47 @@
+---
+
+
+- name: Creating shared directory on host for Jenkins
+  file:
+    path: /mnt/propitix_opt
+    state: directory
+    mode: '0755'
+  when: ansible_nodename == "nfsserver"
+
+
+- name: Creating shared logs directory on host for Webserver logs
+  file:
+    path: /mnt/propitix_logs
+    state: directory
+    mode: '0755'
+  when: ansible_nodename == "nfsserver"
+
+
+
+- name: Creating shared apps directory on host for Webserver apps
+  file:
+    path: /mnt/propitix_apps
+    state: directory
+    mode: '0755'
+  when: ansible_nodename == "nfsserver"
+
+
+
+- name: Creating shared db directory on host for dbserver
+  file:
+    path: /mnt/propitix_db
+    state: directory
+    mode: '0755'
+  when: ansible_nodename == "nfsserver"
+
+
+
+- name: copying /etc/exports file for nfs server
+  template:
+   src: nfs-export.j2
+   dest: "/etc/exports"
+   owner: root
+   group: root
+   mode: 0600
+  when: ansible_nodename == "nfsserver"
+  notify: restart nfs server on the host

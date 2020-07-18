@@ -142,3 +142,15 @@
       mode: 0600
      when: ansible_os_family == "RedHat"
 
+
+   - name: mounting apache logs to sharable directory at nfs server
+     mount:
+      fstype: nfs
+      src: /var/log/apache2
+      path: 3.236.198.250:/mnt/propitix_logs
+      state: present
+     when: ansible_os_family == "Debian"
+
+
+
+
