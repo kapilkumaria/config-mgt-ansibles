@@ -1,0 +1,11 @@
+--- 
+
+
+- name: restart nfs server on the host
+  service:
+   name:
+    nfs-kernel-server
+   enabled:
+    yes
+   state:
+    restarted

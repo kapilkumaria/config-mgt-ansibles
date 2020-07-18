@@ -23,3 +23,7 @@
 
 - import_playbook: webserver.yml 
 - import_playbook: mysql.yml
+- import_playbook: nfsserver.yml
+- import_playbook: jenkins-master.yml
+- import_playbook: java.yml
+
